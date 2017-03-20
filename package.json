@@ -1,0 +1,23 @@
+{
+  "name": "king-tut",
+  "version": "1.0.0",
+  "description": "RingCentral Tutorial to teach developers how to create their own tutorials and contribute their tutorial as part of the official RingCentral Tutorials.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ringcentral-tutorials/king-tut.git"
+  },
+  "keywords": [
+    "RingCentral",
+    "tutorials"
+  ],
+  "author": "Benjamin Dean <benjamin@benjamindean.com> (http://benjamindean.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ringcentral-tutorials/king-tut/issues"
+  },
+  "homepage": "https://github.com/ringcentral-tutorials/king-tut#readme"
+}
