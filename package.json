@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/ringcentral-tutorials/king-tut#readme",
   "dependencies": {
+    "dotenv": "^4.0.0",
     "ringcentral": "^3.1.1"
   }
 }
