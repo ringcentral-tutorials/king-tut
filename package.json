@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/ringcentral-tutorials/king-tut/issues"
   },
-  "homepage": "https://github.com/ringcentral-tutorials/king-tut#readme"
+  "homepage": "https://github.com/ringcentral-tutorials/king-tut#readme",
+  "dependencies": {
+    "ringcentral": "^3.1.1"
+  }
 }
