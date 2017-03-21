@@ -1,8 +1,13 @@
 'use strict';
 
 // Dependencies
+require('dotenv').config(); // If using this in multi-environment (local and deployed versions) might want to add logic for checking NODE_ENV environment variable to load only if local
 const http = require('http');
-const RC = require('ringcentral');
+const winston = require('winston');
+const RingCentral = require('ringcentral');
+
+// Set log level
+winston.level = process.env.LOG_LEVEL;
 
 // RingCentral JS SDK Variables
 let appKey = process.env.APP_KEY;
@@ -12,54 +17,127 @@ let password = process.env.PASSWORD;
 let extension = process.env.EXTENSION;
 let toNumber = process.env.TO_NUMBER;
 let fromNumber = process.env.FROM_NUMBER;
-let message = process.env.SMS_MESSAGE;
+let smsBody = process.env.SMS_MESSAGE;
 
 // Instantiate RingCentral JS SDK
-let rcsdk = new RC({
+let rcsdk = new RingCentral({
     server: RingCentral.SDK.server.sandbox,
     appKey: appKey,
     appSecret: appSecret
-    //redirectUri: '' // optional
 });
 
 // Get the RingCentral Platform Object
-let platform = rc.platform();
+let platform = rcsdk.platform();
 
 //Login with Password Flow
-rcsdk.platform()
+platform()
     .login({
         username: password, // phone number in full format
         extension: extension, // leave blank if direct number is used
         password: password
     })
-    .then(function(response) {
+    .then((response) => {
         // your code here
+        winston.log('info', 'Authenticated to RingCentral!', response.json());
     })
-    .catch(function(e) {
-        alert(e.message  || 'Server cannot authorize user');
+    .then(hasPermission)
+    .then(invalidatePhoneNumber)
+    .then(sendSMS)
+    .catch((e) => {
+        winston.log('error', 'Authentication to RingCentral failed', e);
+        throw e;
     });
 
-let sendSMS(e, to, from, body) => {
-    rcsdk.platform()
+let hasPermission() => {
+    return platform()
+        .get('/account/~/extension/~/authz-profile/check?permissionId=OutboundSMS')
+        .then((response) => {
+            winston.log('verbose', 'Check Permission Response', response.json());
+            if(response.json().successful) {
+                winston.log('verbose', 'Authenticated user has OutboundSMS permission');
+                return true;
+            } else {
+                winston.log('error', 'Authenticated user missing OutboundSMS permission');
+                throw new Error('Authenticated user missing OutboundSMS permission');
+            }
+        })
+        .catch((e) => {
+            winston.log('error', 'Error checking RingCentral permission', e);
+            throw e;
+        });
+};
+
+let invalidateFromPhoneNumber(fromNumber) => {
+    return platform()
+        .get('/account/~/extension/~/phone-number')
+        .then((response) => {
+            let phoneNumberList = response.json();
+            winston.log('verbose', 'Extension Phone Number List Response', phoneNumberList);
+            if(phoneNumberList.records) {
+                let matchingNumberObj = phoneNumberList.records.find((obj) => {
+                    return obj.phoneNumber.includes(fromNumber);
+                });
+                if(matchingNumberObj && -1 !== matchingNumberObj.features.indexOf('SmsSender')) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        })
+        .catch((e) => {
+            winston.log('error', 'Error checking RingCentral permission', e);
+            throw e;
+        });
+};
+
+let sendSMS() => {
+    return platform()
         .post('/account/~/extension/~/sms', {
-            from: {phoneNumber:'+' + from}, // Your sms-enabled phone number
+            from: {phoneNumber:'+' + fromNumber}, // Your sms-enabled phone number
             to: [
-                {phoneNumber:'+' + to} // Second party's phone number
+                {phoneNumber:'+' + toNumber} // Second party's phone number
             ],
-            text: body
+            text: smsBody
         })
-        .then(function(response) {
-            console.log(response);
-            alert('Success: ' + response.json().id);
+        .then((response) => {
+            winston.log('verbose', 'Created SMS successfully, need to check delivery status in Message API', response.json());
+            winston.log('info', 'SMS id', response.json().id)e
+            return response.json();
         })
-        .catch(function(e) {
-            console.error(e);
-            alert('Error: ' + e.message);
+        .catch((e) => {
+            winston.log('error', 'Error creating SMS', e);
+            throw e;
         });
 };
 
 // Platform Event Handlers
 platform.on(platform.events.loginSuccess, function(e){
-    // Send an SMS
-    sendSMS(null, toNumber, fromNumber, message);
+    winston.log('verbose', 'Successfully authenticated to RingCentral', {
+        timestamp: +new Date(),
+        response: e
+});
+platform.on(platform.events.loginError, function(e){
+    winston.log('error', 'Failed to login to RingCentral', {
+        timestamp: +new Date(),
+        response: e
+});
+platform.on(platform.events.logoutSuccess, function(e){
+    winston.log('verbose', 'Successfully authenticated to RingCentral', {
+        timestamp: +new Date(),
+        response: e
+});
+platform.on(platform.events.logoutError, function(e){
+    winston.log('error', 'Failed to logout to RingCentral', {
+        timestamp: +new Date(),
+        response: e
+});
+platform.on(platform.events.refreshSuccess, function(e){
+    winston.log('verbose', 'Successfully refreshed the access_token for RingCentral', {
+        timestamp: +new Date(),
+        response: e
+});
+platform.on(platform.events.refreshError, function(e){
+    winston.log('verbose', 'Failed to refresh the access_token for RingCentral', {
+        timestamp: +new Date(),
+        response: e
 });
