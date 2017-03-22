@@ -10,14 +10,14 @@ const RingCentral = require('ringcentral');
 winston.level = process.env.LOG_LEVEL;
 
 // RingCentral JS SDK Variables
-let myAppKey = process.env.APP_KEY;
-let myAppSecret = process.env.APP_SECRET;
-let myUsername = process.env.USErNAME;
-let myPassword = process.env.PASSWORD;
-let myExtension = process.env.EXTENSION;
-let myToNumber = process.env.TO_NUMBER;
-let myFromNumber = process.env.FROM_NUMBER;
-let mySmsBody = process.env.SMS_MESSAGE;
+let myAppKey = process.env.RC_APP_KEY;
+let myAppSecret = process.env.RC_APP_SECRET;
+let myUsername = process.env.RC_USERNAME;
+let myPassword = process.env.RC_PASSWORD;
+if(null !== process.env.RC_EXTENSION) { let myExtension = process.env.RC_EXTENSION; }
+let myToNumber = process.env.RC_TO_NUMBER;
+let myFromNumber = process.env.RC_FROM_NUMBER;
+let mySmsBody = process.env.RC_SMS_MESSAGE;
 
 // Instantiate RingCentral JS SDK
 let rcsdk = new RingCentral({
@@ -30,7 +30,7 @@ let rcsdk = new RingCentral({
 let platform = rcsdk.platform();
 
 let hasPermission = () => {
-    return platform()
+    return platform
         .get('/account/~/extension/~/authz-profile/check?permissionId=OutboundSMS')
         .then((response) => {
             winston.log('verbose', 'Check Permission Response', response.json());
@@ -49,7 +49,7 @@ let hasPermission = () => {
 };
 
 let invalidateFromPhoneNumber = (fromNumber) => {
-    return platform()
+    return platform
         .get('/account/~/extension/~/phone-number')
         .then((response) => {
             let phoneNumberList = response.json();
@@ -72,7 +72,8 @@ let invalidateFromPhoneNumber = (fromNumber) => {
 };
 
 let sendSMS = (fromNumber, toNumber, smsBody) => {
-    return platform()
+    console.log('From, To, Body: ', fromNumber + ' - ' + toNumber + ' - ' + smsBody);
+    return platform
         .post('/account/~/extension/~/sms', {
             from: {phoneNumber:'+' + fromNumber}, // Your sms-enabled phone number
             to: [
@@ -86,7 +87,7 @@ let sendSMS = (fromNumber, toNumber, smsBody) => {
             return response.json();
         })
         .catch((e) => {
-            winston.log('error', 'Error creating SMS', e);
+            winston.log('error', 'Error POSTing SMS: ', e.message);
             throw e;
         });
 };
@@ -95,7 +96,7 @@ let sendSMS = (fromNumber, toNumber, smsBody) => {
 platform
     .login({
         username: myUsername, // phone number in full format
-        extension: myExtension, // leave blank if direct number is used
+        //extension: myExtension, // leave blank if direct number is used
         password: myPassword
     })
     .then((response) => {
@@ -108,6 +109,9 @@ platform
     })
     .then((isValidFromNumber) => {
         sendSMS(myFromNumber, myToNumber, mySmsBody);
+    })
+    .then((response) => {
+        winston.log('info', 'SMS was sent...check your SMS-enabled device for your message', response);
     })
     .catch((e) => {
         winston.log('error', 'Authentication to RingCentral failed', e);
