@@ -10,45 +10,26 @@ const RingCentral = require('ringcentral');
 winston.level = process.env.LOG_LEVEL;
 
 // RingCentral JS SDK Variables
-let appKey = process.env.APP_KEY;
-let appSecret = process.env.APP_SECRET;
-let usename = process.env.USErNAME;
-let password = process.env.PASSWORD;
-let extension = process.env.EXTENSION;
-let toNumber = process.env.TO_NUMBER;
-let fromNumber = process.env.FROM_NUMBER;
-let smsBody = process.env.SMS_MESSAGE;
+let myAppKey = process.env.APP_KEY;
+let myAppSecret = process.env.APP_SECRET;
+let myUsername = process.env.USErNAME;
+let myPassword = process.env.PASSWORD;
+let myExtension = process.env.EXTENSION;
+let myToNumber = process.env.TO_NUMBER;
+let myFromNumber = process.env.FROM_NUMBER;
+let mySmsBody = process.env.SMS_MESSAGE;
 
 // Instantiate RingCentral JS SDK
 let rcsdk = new RingCentral({
-    server: RingCentral.SDK.server.sandbox,
-    appKey: appKey,
-    appSecret: appSecret
+    server: RingCentral.server.sandbox,
+    appKey: myAppKey,
+    appSecret: myAppSecret
 });
 
 // Get the RingCentral Platform Object
 let platform = rcsdk.platform();
 
-//Login with Password Flow
-platform()
-    .login({
-        username: password, // phone number in full format
-        extension: extension, // leave blank if direct number is used
-        password: password
-    })
-    .then((response) => {
-        // your code here
-        winston.log('info', 'Authenticated to RingCentral!', response.json());
-    })
-    .then(hasPermission)
-    .then(invalidatePhoneNumber)
-    .then(sendSMS)
-    .catch((e) => {
-        winston.log('error', 'Authentication to RingCentral failed', e);
-        throw e;
-    });
-
-let hasPermission() => {
+let hasPermission = () => {
     return platform()
         .get('/account/~/extension/~/authz-profile/check?permissionId=OutboundSMS')
         .then((response) => {
@@ -67,7 +48,7 @@ let hasPermission() => {
         });
 };
 
-let invalidateFromPhoneNumber(fromNumber) => {
+let invalidateFromPhoneNumber = (fromNumber) => {
     return platform()
         .get('/account/~/extension/~/phone-number')
         .then((response) => {
@@ -90,7 +71,7 @@ let invalidateFromPhoneNumber(fromNumber) => {
         });
 };
 
-let sendSMS() => {
+let sendSMS = (fromNumber, toNumber, smsBody) => {
     return platform()
         .post('/account/~/extension/~/sms', {
             from: {phoneNumber:'+' + fromNumber}, // Your sms-enabled phone number
@@ -101,7 +82,7 @@ let sendSMS() => {
         })
         .then((response) => {
             winston.log('verbose', 'Created SMS successfully, need to check delivery status in Message API', response.json());
-            winston.log('info', 'SMS id', response.json().id)e
+            winston.log('info', 'SMS id', response.json().id);
             return response.json();
         })
         .catch((e) => {
@@ -110,34 +91,68 @@ let sendSMS() => {
         });
 };
 
+//Login with Password Flow
+platform
+    .login({
+        username: myUsername, // phone number in full format
+        extension: myExtension, // leave blank if direct number is used
+        password: myPassword
+    })
+    .then((response) => {
+        // your code here
+        winston.log('info', 'Authenticated to RingCentral!', response.json());
+    })
+    .then(hasPermission)
+    .then((hasPermissionResult) => {
+        invalidateFromPhoneNumber(myFromNumber);
+    })
+    .then((isValidFromNumber) => {
+        sendSMS(myFromNumber, myToNumber, mySmsBody);
+    })
+    .catch((e) => {
+        winston.log('error', 'Authentication to RingCentral failed', e);
+        throw e;
+    });
+
 // Platform Event Handlers
 platform.on(platform.events.loginSuccess, function(e){
     winston.log('verbose', 'Successfully authenticated to RingCentral', {
         timestamp: +new Date(),
         response: e
+    });
 });
+
 platform.on(platform.events.loginError, function(e){
     winston.log('error', 'Failed to login to RingCentral', {
         timestamp: +new Date(),
         response: e
+    });
 });
+
 platform.on(platform.events.logoutSuccess, function(e){
     winston.log('verbose', 'Successfully authenticated to RingCentral', {
         timestamp: +new Date(),
         response: e
+    });
 });
+
 platform.on(platform.events.logoutError, function(e){
     winston.log('error', 'Failed to logout to RingCentral', {
         timestamp: +new Date(),
         response: e
+    });
 });
+
 platform.on(platform.events.refreshSuccess, function(e){
     winston.log('verbose', 'Successfully refreshed the access_token for RingCentral', {
         timestamp: +new Date(),
         response: e
+    });
 });
+
 platform.on(platform.events.refreshError, function(e){
     winston.log('verbose', 'Failed to refresh the access_token for RingCentral', {
         timestamp: +new Date(),
         response: e
+    });
 });
