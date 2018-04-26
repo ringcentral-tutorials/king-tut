@@ -1,0 +1,42 @@
+.chapter(data-title='Tutorial for RingCentral Tutorial Authors')
+  .step(data-title='Welcome!', data-file='tutorial/config.json')
+    h2 Welcome to King Tut!
+
+    p Thanks for your interest in writing a RingCentral Tutorial! If you're new to authoring or using RingCentral Tutorials, feel free to click through this brief tutorial showing you how a RingCentral Tutorial is structured and what users experience.
+
+    p The tutorial's navigation controls are located above this text. Use <i class="fa fa-fw fa-play"></i> to move to the next step of the tutorial. Use <i class="fa fa-fw fa-play fa-rotate-180"></i> to move to the previous step of the tutorial (if there is one). Use <i class="fa fa-fw fa-list"></i> to see an overview of all the steps in the tutorial.
+
+    p Let's begin by walking through the files generated for you in the `tutorial` directory with the `saurus new` command - those files are actually what is being used to show you this tutorial right now!
+
+  .step(data-title='Tutorial Configuration', data-file='tutorial/config.json')
+    :markdown
+      ## Configuration
+
+      The first file we'll look at is `/tutorials/config.json`. This contains high-level configuration information about your tutorial. This JSON file contains several properties you can declare about your tutorial:
+
+      * `title`: This is the title of your tutorial which will show on the first page
+      * `description`: This is a string of text that will appear above the "Start" button for your tutorial.
+      * `repo`: This is the GitHub repo that your code lives in. Right now we assume all projects are hosted there, but we'll likely make this agnostic in the future.
+      * `heroku`: This indicates whether or not your project supports instant deployment with the [Heroku Button](https://blog.heroku.com/archives/2014/8/7/heroku-button)
+
+      Now, let's take a look at the file that contains the **prose** content of the tutorial (the part that you are reading now), `/tutorials/index.jade`.
+
+  .step(data-title='Code-Based Tutorial Prose', data-file='tutorial/index.jade')
+    h2 Code-Based Tutorial Prose
+
+    p This file defines the structure (outline) of your tutorial into chapters and sections, their titles, the files displayed at various steps, and even the ability to highlight specific code within a particular file.
+
+    p This file contains examples of using Markdown or Jade as well.
+
+  //- Example: include markdown file
+    //.step(data-title='Step Three', data-file='', data-highlight='')
+      //include:markdown three.md
+
+  //- Example: include jade file (don't need file extension)
+    //.step(data-title='Step Four', data-file='', data-highlight='')
+      //include four
+
+  .step(data-title='Getting Started', data-file='../README.md')
+    h2 Getting Started
+
+    p The README.md file of the **master** branch of the Github repository for King Tut contains all the information developers need in step-by-step format.
