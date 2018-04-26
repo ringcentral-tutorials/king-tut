@@ -33,7 +33,7 @@ These are the things you will need before you get started:
 
 ## Installation
 
-Install RingCentral Themed - viewsaurus to the GLOBAL NPM space of your local workstation
+Install RingCentral themed viewsaurus to the GLOBAL NPM space of your local workstation
 
 ```
 npm install -g viewsaurus-ringcentral
@@ -41,33 +41,33 @@ npm install -g viewsaurus-ringcentral
 
 ## Getting Started
 
+#### This is the lastest process which doesn't require a separate git branch. For the old process please read the [1.0 verion](https://github.com/ringcentral-tutorials/king-tut/tree/1.0) of this repo
+
 ### New Tutorials
 
-1. Make sure you have initialized your application as a Git repository if you haven't already (make sure to follow the [Tutorial Repository Naming Conventions](). `git init` and complete the questions to build your repository
-2. Author the demo app or sample code in the **master** branch of the repository, making sure to commit the **stable and operational** version to history
-3. Once your demo app or sample code is stable, create a new branch **gh-pages** from the **master** branch, `git checkout -b gh-pages`
-4. Format **gh-pages** branch for use with **viewsaurus**, `saurus new`
-5. Stage and commit the **gh-pages** branch as follows, `git add -A` to stage the changes and `git commit -m "Initialize tutorial"` to commit this to history
-6. Update the tutorial configuration in **/tutorials/config.json** appropriately (see some of the other tutorials for reference)
-7. Stage and commit the **gh-pages** branch as follows, `git add -A` to stage the changes and `git commit -m "Configure tutorial"` to commit this to history
-8. Author the tutorial prose in **/tutorials/index.jade** using/replacing the existing samples as needed. Make sure to read the [Critical Concepts]() to learn more about writing tutorial prose in this format
-9. Once you feel satisfied it is complete, test viewing it locally (follow the directions in the console to get the URL for opening the tutorial locally), `saurus author` (if you see any errors, it is usually in formatting of the Jade file)
-10. If the final tutorial operates as expected, you are ready to stage and commit the **gh-pages** branch of the tutorial,  `git add -A` to stage the changes and `git commit -m "Complete the tutorial prose"` to commit this to history
-11. Push the **gh-pages** branch to the remote repository on Github, `git push origin gh-pages`
-12. Create a new issue in [RingCentral Tutorial Index Repository](https://github.com/ringcentral/tutorials) asking for your newly created tutorial to be forked into the listings
+1. Make sure you have initialized your application as a Git repository if you haven't already (make sure to follow the [Tutorial Repository Naming Conventions](#tutorial-repository-naming-convention)). `git init` and complete the questions to build your repository
+2. Author the demo app or sample code, making sure to commit the **stable and operational** version to history
+3. Once your demo app or sample code is stable, create a new directory named "docs" in the root directory: `mkdir docs`
+4. `cd docs` and `saurus new` to initialize tutorial
+5. Stage and commit the changes as follows, `git add -A` to stage the changes and `git commit -m "Initialize tutorial"` to commit this to history
+6. Update the tutorial configuration in **/docs/tutorials/config.json** appropriately (see some of the other tutorials for reference)
+7. Stage and commit the changes as follows, `git add -A` to stage the changes and `git commit -m "Configure tutorial"` to commit this to history
+8. Author the tutorial prose in **/docs/tutorials/index.jade** using/replacing the existing samples as needed. Make sure to read the [Critical Concepts](#critical-concepts) to learn more about writing tutorial prose in this format
+9. Once you feel satisfied it is complete, test viewing it locally (follow the directions in the console to get the URL for opening the tutorial locally), `cd docs && saurus author` (if you see any errors, it is usually in formatting of the Jade file)
+10. If the final tutorial operates as expected, you are ready to stage and commit the tutorial,  `git add -A` to stage the changes and `git commit -m "Complete the tutorial prose"` to commit this to history
+11. Push the commits to the remote repository on Github, `git push origin master`
+12. Create PR for [RingCentral Developer Tutorial Index](https://github.com/ringcentral/tutorials) asking for your newly created tutorial to be forked into the listings. Take [this PR](https://github.com/ringcentral/tutorials/pull/16) for example.
+
 
 ### Updating Tutorials
 
 There are a variety of reasons to update a tutorial (updates, improvements, etc...), but how do you go about doing that?
 
-1. Make your changes to the demo app or sample code in the **master** branch of the repository.
-2. Commit those changes to history in Git `git commit -m "{{COMMIT MESSAGE}}"`.
-3. Push your updates to Github, `git push origin master`
-4. Switch to the **gh-pages** branch `git checkout gh-pages`
-5. Merge the master branch `git merge master`
-6. Update the tutorial's prose (and config if necessary) in the **/tutorials/index.jade** file
-7. Stage and commit the updated prose in the **gh-pages** branch `git add -A` and `git commit -m "{{COMMIT MESSAGE}}"` respectively
-8. Push your tutorial changes, `git push origin gh-pages`
+1. Make your changes to the demo app or sample code.
+1. Update the tutorial's prose (and config if necessary) in the **/docs/tutorials/index.jade** file
+1. Run viewsaurus compile process: `cd docs && viewsaurus author`
+1. Stage and commit the changes `git add -A` and `git commit -m "{{COMMIT MESSAGE}}"` respectively
+1. Push your tutorial changes `git push origin master`
 
 ## Critical Concepts
 
@@ -75,7 +75,7 @@ There are a variety of reasons to update a tutorial (updates, improvements, etc.
 
 ### Tutorial Prose
 
-Tutorial prose (the grammer that speaks to the code) can be written in either [Jade](https://naltatis.github.io/jade-syntax-docs/) or [Markdown](https://daringfireball.net/projects/markdown/syntax). After running `saurus new`, please see the file **/tutorials/index.jade** for an example of using either or both in a single tutorial.
+Tutorial prose (the grammer that speaks to the code) can be written in either [Jade](https://naltatis.github.io/jade-syntax-docs/) or [Markdown](https://daringfireball.net/projects/markdown/syntax). After running `saurus new`, please see the file **/docs/tutorials/index.jade** for an example of using either or both in a single tutorial.
 
 #### Chapters
 
@@ -127,4 +127,4 @@ Make the copy of each step as succinct as possible.
 
 ## Contributing
 
-To contribute your tutorial into the main repository, create an issue in [RingCentral Developer Tutorial Index](https://github.com/ringcentral.com/tutorials) and request that your completed tutorial be included in the main index.
+To contribute your tutorial into the main repository, create PR for [RingCentral Developer Tutorial Index](https://github.com/ringcentral/tutorials). Take [this PR](https://github.com/ringcentral/tutorials/pull/16) for example.
