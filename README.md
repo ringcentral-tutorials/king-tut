@@ -46,17 +46,17 @@ npm install -g viewsaurus-ringcentral
 ### New Tutorials
 
 1. Make sure you have initialized your application as a Git repository if you haven't already (make sure to follow the [Tutorial Repository Naming Conventions](#tutorial-repository-naming-convention)). `git init` and complete the questions to build your repository
-2. Author the demo app or sample code, making sure to commit the **stable and operational** version to history
-3. Once your demo app or sample code is stable, create a new directory named "docs" in the root directory: `mkdir docs`
-4. `cd docs` and `saurus new` to initialize tutorial
-5. Stage and commit the changes as follows, `git add -A` to stage the changes and `git commit -m "Initialize tutorial"` to commit this to history
-6. Update the tutorial configuration in **/docs/tutorials/config.json** appropriately (see some of the other tutorials for reference)
-7. Stage and commit the changes as follows, `git add -A` to stage the changes and `git commit -m "Configure tutorial"` to commit this to history
-8. Author the tutorial prose in **/docs/tutorials/index.jade** using/replacing the existing samples as needed. Make sure to read the [Critical Concepts](#critical-concepts) to learn more about writing tutorial prose in this format
-9. Once you feel satisfied it is complete, test viewing it locally (follow the directions in the console to get the URL for opening the tutorial locally), `cd docs && saurus author` (if you see any errors, it is usually in formatting of the Jade file)
-10. If the final tutorial operates as expected, you are ready to stage and commit the tutorial,  `git add -A` to stage the changes and `git commit -m "Complete the tutorial prose"` to commit this to history
-11. Push the commits to the remote repository on Github, `git push origin master`
-12. Create PR for [RingCentral Developer Tutorial Index](https://github.com/ringcentral/tutorials) asking for your newly created tutorial to be forked into the listings. Take [this PR](https://github.com/ringcentral/tutorials/pull/16) for example.
+1. Once your demo app or sample code is stable, create a new directory named "docs" in the root directory: `mkdir docs`
+1. `cd docs` and `saurus new` to initialize tutorial
+1. Stage and commit the changes as follows, `git add -A` to stage the changes and `git commit -m "Initialize tutorial"` to commit this to history
+1. Update the tutorial configuration in **/docs/tutorials/config.json** appropriately (see some of the other tutorials for reference)
+1. Stage and commit the changes as follows, `git add -A` to stage the changes and `git commit -m "Configure tutorial"` to commit this to history
+1. Author the tutorial prose in **/docs/tutorials/index.jade** using/replacing the existing samples as needed. Make sure to read the [Critical Concepts](#critical-concepts) to learn more about writing tutorial prose in this format
+1. Once you feel satisfied it is complete, test viewing it locally (follow the directions in the console to get the URL for opening the tutorial locally), `cd docs && saurus author` (if you see any errors, it is usually in formatting of the Jade file)
+1. If the final tutorial operates as expected, you are ready to stage and commit the tutorial,  `git add -A` to stage the changes and `git commit -m "Complete the tutorial prose"` to commit this to history
+1. Push the commits to the remote repository on Github, `git push origin master`
+1. Update the repository setting in GitHub, Change GitHub Pages Source to be **master branch /docs folder**.
+1. Create PR for [RingCentral Developer Tutorial Index](https://github.com/ringcentral/tutorials) asking for your newly created tutorial to be forked into the listings. Take [this PR](https://github.com/ringcentral/tutorials/pull/16) for example.
 
 
 ### Updating Tutorials
