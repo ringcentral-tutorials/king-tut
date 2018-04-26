@@ -33,10 +33,10 @@ These are the things you will need before you get started:
 
 ## Installation
 
-Install [RingCentral Themed - viewsaurus](https://github.com/pkvenu/viewsaurus) to the GLOBAL NPM space of your local workstation
+Install RingCentral Themed - viewsaurus to the GLOBAL NPM space of your local workstation
 
 ```
-npm install -g https://github.com/pkvenu/viewsaurus
+npm install -g viewsaurus-ringcentral
 ```
 
 ## Getting Started
