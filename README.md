@@ -65,7 +65,7 @@ There are a variety of reasons to update a tutorial (updates, improvements, etc.
 
 1. Make your changes to the demo app or sample code.
 1. Update the tutorial's prose (and config if necessary) in the **/docs/tutorials/index.jade** file
-1. Run viewsaurus compile process: `cd docs && viewsaurus author`
+1. Run viewsaurus compile process: `cd docs && saurus author`
 1. Stage and commit the changes `git add -A` and `git commit -m "{{COMMIT MESSAGE}}"` respectively
 1. Push your tutorial changes `git push origin master`
 
