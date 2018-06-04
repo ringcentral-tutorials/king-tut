@@ -53,6 +53,7 @@ npm install -g viewsaurus-ringcentral
 1. Stage and commit the changes as follows, `git add -A` to stage the changes and `git commit -m "Configure tutorial"` to commit this to history
 1. Author the tutorial prose in **/docs/tutorials/index.jade** using/replacing the existing samples as needed. Make sure to read the [Critical Concepts](#critical-concepts) to learn more about writing tutorial prose in this format
 1. Once you feel satisfied it is complete, test viewing it locally (follow the directions in the console to get the URL for opening the tutorial locally), `cd docs && saurus author` (if you see any errors, it is usually in formatting of the Jade file)
+1. Check the tutorial in browser by navigating to http://localhost:8888/ to make sure it works as expected
 1. If the final tutorial operates as expected, you are ready to stage and commit the tutorial,  `git add -A` to stage the changes and `git commit -m "Complete the tutorial prose"` to commit this to history
 1. Push the commits to the remote repository on Github, `git push origin master`
 1. Update the repository setting in GitHub, Change GitHub Pages Source to be **master branch /docs folder**.
@@ -63,11 +64,13 @@ npm install -g viewsaurus-ringcentral
 
 There are a variety of reasons to update a tutorial (updates, improvements, etc...), but how do you go about doing that?
 
-1. Make your changes to the demo app or sample code.
-1. Update the tutorial's prose (and config if necessary) in the **/docs/tutorials/index.jade** file
 1. Run viewsaurus compile process: `cd docs && saurus author`
     1. `saurus author` is a watcher process and it won't quit automatically
+    1. Whenever you make some changes, `saurus author` process will update the static website in `docs/` folder.
+1. Make your changes to the demo app or sample code.
+1. Update the tutorial's prose (and config if necessary) in the **/docs/tutorials/index.jade** file
 1. Check the tutorial in browser by navigating to http://localhost:8888/ to make sure it works as expected
+1. Repeat step 2 - 4 until you think it's time to publish your change.
 1. Stage and commit the changes `git add -A` and `git commit -m "{{COMMIT MESSAGE}}"` respectively
 1. Push your tutorial changes `git push origin master`
 
