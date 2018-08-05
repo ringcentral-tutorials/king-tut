@@ -81,7 +81,7 @@ There are a variety of reasons to update a tutorial (updates, improvements, etc.
 
 ### Tutorial Prose
 
-Tutorial prose (the grammer that speaks to the code) can be written in either [Jade](https://naltatis.github.io/jade-syntax-docs/) or [Markdown](https://daringfireball.net/projects/markdown/syntax). After running `saurus new`, please see the file **/docs/tutorials/index.jade** for an example of using either or both in a single tutorial.
+Tutorial prose (the grammer that speaks to the code) can be written in either [Jade](https://naltatis.github.io/jade-syntax-docs/) or [Markdown](https://daringfireball.net/projects/markdown/syntax). After running `saurus new`, please see the file **docs/tutorials/index.jade** for an example of using either or both in a single tutorial.
 
 #### Chapters
 
