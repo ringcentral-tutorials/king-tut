@@ -41,7 +41,7 @@ npm install -g viewsaurus-ringcentral
 
 ## Getting Started
 
-#### This is the lastest process which doesn't require a separate git branch. For the old process please read the [1.0 verion](https://github.com/ringcentral-tutorials/king-tut/tree/1.0) of this repo
+#### This is the lastest process which doesn't require a separate git branch. For the old process please read the [1.0 version](https://github.com/ringcentral-tutorials/king-tut/tree/1.0) of this repo
 
 ### New Tutorials
 
